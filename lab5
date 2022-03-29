@@ -1,0 +1,155 @@
+#include<stdio.h>
+#include<stdlib.h>
+int selection();
+void quickkk();
+int indexOfMinimum(int arr[], int startIndex, int n) ;
+int main()
+{
+	int choice,count;
+	while(1)
+	{
+		printf("\n\n 1.Selection Sort\n 2.Quick Sort\n 3.Exit\n Enter your choice:");
+		scanf("%d",&choice);
+		switch (choice)
+		{
+			case 1:
+				selection();
+				break;
+			case 2:
+				quickkk();
+				break;
+			case 3:
+				exit(0);
+			default:
+				printf("\nInvalid Input !!\nTry Again !!");
+		}
+	}
+	return 0;
+}
+// selection sort
+void swap(int arr[], int firstIndex, int secondIndex) 
+{   
+    int temp;
+    temp = arr[firstIndex];
+    arr[firstIndex] = arr[secondIndex];
+    arr[secondIndex] = temp;
+}
+
+// function to look for smallest element in the given subarray
+int indexOfMinimum(int arr[], int startIndex, int n) 
+{
+	int i;
+    int minValue = arr[startIndex];
+    int minIndex = startIndex;
+
+    for(i = minIndex + 1; i < n; i++) {
+        if(arr[i] < minValue) 
+        {
+            minIndex = i;
+            minValue = arr[i];
+        }
+    } 
+    return minIndex;
+    
+}
+
+void selectionSort(int arr[], int n) 
+{
+	int i;
+    for(i = 0; i < n; i++) 
+    {
+        int index = indexOfMinimum(arr, i, n);
+        swap(arr, i, index);
+    }
+    
+}
+
+void printArray(int arr[], int size)
+{
+    int i;
+    for(i = 0; i < size; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int selection()
+{
+	int n,i;
+    int arr[10];
+    printf("Enter the limit :");
+    scanf("%d",&n);
+    printf("Enter the element :");
+    for (i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+    int n = sizeof(arr)/sizeof(arr[0]);
+    selectionSort(arr, n);
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}
+}
+
+//Quick sort 
+
+// simple C program for Quick Sort
+int partition(int a[], int beg, int end);  
+void quickSort(int a[], int beg, int end);  
+void quickkk()  
+{  
+    int i;  
+    int arr[10]={90,23,101,45,65,28,67,89,34,29};  
+    quickSort(arr, 0, 9);  
+    printf("\n The sorted array is: \n");  
+    for(i=0;i<10;i++)  
+    printf(" %d\t", arr[i]);  
+}  
+int partition(int a[], int beg, int end)  
+{  
+    int left, right, temp, loc, flag;     
+    loc = left = beg;  
+    right = end;  
+    flag = 0;  
+    while(flag != 1)  
+    {  
+        while((a[loc] <= a[right]) && (loc!=right))  
+        right--;  
+        if(loc==right)  
+        flag =1;  
+        else if(a[loc]>a[right])  
+        {  
+            temp = a[loc];  
+            a[loc] = a[right];  
+            a[right] = temp;  
+            loc = right;  
+        }  
+        if(flag!=1)  
+        {  
+            while((a[loc] >= a[left]) && (loc!=left))  
+            left++;  
+            if(loc==left)  
+            flag =1;  
+            else if(a[loc] < a[left])  
+            {  
+                temp = a[loc];  
+                a[loc] = a[left];  
+                a[left] = temp;  
+                loc = left;  
+            }  
+        }  
+    }  
+    return loc;  
+}  
+void quickSort(int a[], int beg, int end)  
+{  
+    int loc;  
+    if(beg<end)  
+    {  
+        loc = partition(a, beg, end);  
+        quickSort(a, beg, loc-1);  
+        quickSort(a, loc+1, end);  
+    }  
+}  
