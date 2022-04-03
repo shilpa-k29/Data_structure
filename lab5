@@ -1,155 +1,152 @@
-#include<stdio.h>
-#include<stdlib.h>
-int selection();
-void quickkk();
-int indexOfMinimum(int arr[], int startIndex, int n) ;
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "insertionsort.h"
+#include "bubblesort.h"
+#include "selectionsort.h"
+
+#define MAX 30
+
+void swap(int *m,int *i)
+{
+	int temp = *m;
+	*m = *i;
+	*i = temp;
+}
+
+void display(int arr[],int n)
+{
+	int i;
+	printf("\n");
+	for(i=0;i<n;i++)
+	{
+		printf("%d\t",arr[i]);
+	}
+}
+
+int randoms(int arr[])
+{
+	int n,i;
+	printf("Enter the total numbers of elements you want to enter : ");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		arr[i]=rand()%20;
+	}
+	display(arr,n);
+	return n;
+}
+
+int random_acc(int arr[])
+{
+	int n,i,temp;
+	printf("Enter the total numbers of elements you want to enter : ");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		temp=rand()%100;
+		if(temp >= arr[i-1])
+		{
+			arr[i]= temp;
+		}
+		else
+		{
+			i--;
+		}
+	}
+	display(arr,n);
+	return n;
+}
+
+
+int random_desc(int arr[])
+{
+	int n,i,temp;
+	printf("Enter the total numbers of elements you want to enter : ");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		temp=rand()%1000;
+//		printf("%d",temp);
+		if(i==0)
+		{
+			arr[i]= temp;
+		}
+		else if(temp <= arr[i-1])
+		{
+			arr[i]= temp;
+		}
+		else
+		{
+			i--;
+		}
+	}
+	display(arr,n);
+	return n;
+}
+
+int input(int arr[])
+{
+	int n,i;
+	printf("Enter the total numbers of elements you want to enter : ");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		printf("\narr[%d]:",i);
+		scanf("%d",&arr[i]);
+	}
+	display(arr,n);
+	return n;
+}
+
 int main()
 {
-	int choice,count;
+	int arr[MAX],arr2[MAX],arr3[MAX],arr4[MAX],n,choice,i;
 	while(1)
 	{
-		printf("\n\n 1.Selection Sort\n 2.Quick Sort\n 3.Exit\n Enter your choice:");
+		printf("\n\n1.Create an Array\n2.Generate a random array\n3.Generate a random array of ascending order\n4.Generate a random array of descending array\n5.Display Array\n6.Selection Sort\n7.Insertion Sort\n8.Bubble Sort\n9.Exit\nEnter your choice:");
 		scanf("%d",&choice);
-		switch (choice)
+		switch(choice)
 		{
 			case 1:
-				selection();
+				n=input(arr);
 				break;
 			case 2:
-				quickkk();
+				n=randoms(arr);
 				break;
 			case 3:
+				n=random_acc(arr);
+				break;
+			case 4:
+				n=random_desc(arr);
+				break;
+			case 5:
+				display(arr,n);
+				break;
+			case 6:
+				for(i=0;i<n;i++)
+					arr2[i]=arr[i];
+				selection_sort(arr2,n);
+				display(arr2,n);
+				break;
+			case 7:
+				for(i=0;i<n;i++)
+					arr3[i]=arr[i];
+				insertion_sort(arr3,n);
+				display(arr3,n);
+				break;
+			case 8:
+				for(i=0;i<n;i++)
+					arr4[i]=arr[i];
+				bubble_sort(arr4,n);
+				display(arr4,n);
+				break;
+			case 9:
 				exit(0);
+				break;
 			default:
 				printf("\nInvalid Input !!\nTry Again !!");
 		}
 	}
 	return 0;
 }
-// selection sort
-void swap(int arr[], int firstIndex, int secondIndex) 
-{   
-    int temp;
-    temp = arr[firstIndex];
-    arr[firstIndex] = arr[secondIndex];
-    arr[secondIndex] = temp;
-}
-
-// function to look for smallest element in the given subarray
-int indexOfMinimum(int arr[], int startIndex, int n) 
-{
-	int i;
-    int minValue = arr[startIndex];
-    int minIndex = startIndex;
-
-    for(i = minIndex + 1; i < n; i++) {
-        if(arr[i] < minValue) 
-        {
-            minIndex = i;
-            minValue = arr[i];
-        }
-    } 
-    return minIndex;
-    
-}
-
-void selectionSort(int arr[], int n) 
-{
-	int i;
-    for(i = 0; i < n; i++) 
-    {
-        int index = indexOfMinimum(arr, i, n);
-        swap(arr, i, index);
-    }
-    
-}
-
-void printArray(int arr[], int size)
-{
-    int i;
-    for(i = 0; i < size; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
-
-int selection()
-{
-	int n,i;
-    int arr[10];
-    printf("Enter the limit :");
-    scanf("%d",&n);
-    printf("Enter the element :");
-    for (i=0;i<n;i++)
-    {
-        scanf("%d",&arr[i]);
-    }
-    int n = sizeof(arr)/sizeof(arr[0]);
-    selectionSort(arr, n);
-    printf("Sorted array: \n");
-    printArray(arr, n);
-    return 0;
-}
-}
-
-//Quick sort 
-
-// simple C program for Quick Sort
-int partition(int a[], int beg, int end);  
-void quickSort(int a[], int beg, int end);  
-void quickkk()  
-{  
-    int i;  
-    int arr[10]={90,23,101,45,65,28,67,89,34,29};  
-    quickSort(arr, 0, 9);  
-    printf("\n The sorted array is: \n");  
-    for(i=0;i<10;i++)  
-    printf(" %d\t", arr[i]);  
-}  
-int partition(int a[], int beg, int end)  
-{  
-    int left, right, temp, loc, flag;     
-    loc = left = beg;  
-    right = end;  
-    flag = 0;  
-    while(flag != 1)  
-    {  
-        while((a[loc] <= a[right]) && (loc!=right))  
-        right--;  
-        if(loc==right)  
-        flag =1;  
-        else if(a[loc]>a[right])  
-        {  
-            temp = a[loc];  
-            a[loc] = a[right];  
-            a[right] = temp;  
-            loc = right;  
-        }  
-        if(flag!=1)  
-        {  
-            while((a[loc] >= a[left]) && (loc!=left))  
-            left++;  
-            if(loc==left)  
-            flag =1;  
-            else if(a[loc] < a[left])  
-            {  
-                temp = a[loc];  
-                a[loc] = a[left];  
-                a[left] = temp;  
-                loc = left;  
-            }  
-        }  
-    }  
-    return loc;  
-}  
-void quickSort(int a[], int beg, int end)  
-{  
-    int loc;  
-    if(beg<end)  
-    {  
-        loc = partition(a, beg, end);  
-        quickSort(a, beg, loc-1);  
-        quickSort(a, loc+1, end);  
-    }  
-}  
